@@ -1,0 +1,18 @@
+{
+  "layout": "stack",
+  "regions": [
+    {
+      "id": "ddns",
+      "widgets": [
+        {
+          "type": "markdown",
+          "value": "## Dynamic DNS\nA stable public name that **follows your home internet connection**. Turn it on and the name below points at your current external IP, updating on its own when your provider changes it.\n\nNothing is published until you turn it on, and turning it off removes the name again."
+        },
+        {
+          "type": "iframe",
+          "src": "/api/apps/ddns/panel/ddns"
+        }
+      ]
+    }
+  ]
+}

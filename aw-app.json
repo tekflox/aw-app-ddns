@@ -1,0 +1,54 @@
+{
+  "manifest_version": 1,
+  "id": "ddns",
+  "name": "Dynamic DNS",
+  "version": "0.1.0",
+  "description": "Give this workspace a stable public name that follows your home internet connection. Turn it on and <slug>.workspace.ddns.tekflox.com points at your current external IP, updating on its own whenever your provider changes it — so a phone, a SIP handset or anything else outside the house can keep reaching you at one name. Off by default: nothing is published until you switch it on, and switching it off removes the name again. If your connection is behind carrier-grade NAT it tells you so instead of publishing an address that could never answer.",
+  "tier": "inprocess",
+  "publisher": "TekFlox",
+  "requires_ui_refresh": true,
+  "resource_estimate": {
+    "cpu": "low",
+    "memory": "low",
+    "disk": "low"
+  },
+  "runtime": {
+    "python": ">=3.11",
+    "entrypoint": "ddns_app.plugin:DdnsAppPlugin",
+    "pip_requires": [],
+    "standalone": {
+      "module": "ddns_app",
+      "default_port": 9410
+    }
+  },
+  "permissions": [
+    "routes:register",
+    "net:outbound"
+  ],
+  "contributes": {
+    "routes": [
+      {
+        "prefix": "/api/apps/ddns"
+      }
+    ],
+    "windows": [
+      {
+        "id": "ddns.main",
+        "title": "Dynamic DNS",
+        "icon": "globe",
+        "body": {
+          "type": "declarative",
+          "spec": "windows/ddns.json"
+        }
+      }
+    ],
+    "settings_panels": [
+      {
+        "id": "ddns.settings",
+        "window": "ddns.main"
+      }
+    ]
+  },
+  "dependencies": {},
+  "migrations": {}
+}
