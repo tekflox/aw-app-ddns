@@ -11,7 +11,11 @@ That is the design. The consent state lives in aw-backend's
 has to outlive this app — an uninstall that silently left a home address
 resolving would be the worst failure this feature can have, and an app cannot
 withdraw a record after it stops existing. aw-backend withdraws on disable,
-on workspace delete and on remote-host revoke for the same reason.
+on workspace delete, on remote-host revoke, and on THIS APP being uninstalled
+(``app_installs.py``'s ``_teardown_for_app``, keyed on ``app_id == "ddns"``)
+for the same reason. Uninstall was the one that was missing at first, and it
+is the worst of the four to miss: nothing is left rendering the row, so the
+record just resolves forever with no way to see it from inside the product.
 """
 
 from __future__ import annotations
@@ -33,5 +37,5 @@ class DdnsAppPlugin:
         # record: deactivate also runs on an ordinary workspace restart, and
         # taking someone's name out of DNS every time the workspace reboots
         # would be a worse bug than the one it looks like it prevents.
-        # Real withdrawal is aw-backend's, on disable/delete/revoke.
+        # Real withdrawal is aw-backend's, on disable/delete/revoke/uninstall.
         log.info("ddns deactivated")
