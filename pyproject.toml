@@ -32,3 +32,13 @@ precision = 1
 # here just makes the gate match reality and locks in the ratchet: never
 # lower this without a documented reason.
 fail_under = 100
+
+[tool.pytest.ini_options]
+# Put the repo root on sys.path so `ddns_app` imports regardless of HOW
+# pytest was invoked. `python -m pytest` adds the CWD implicitly and the bare
+# `pytest` console script does NOT — so without this the suite passes locally
+# and fails in CI with "No module named 'ddns_app'", which is exactly what
+# happened on this repo's first run. Do not remove it in favour of relying on
+# the invocation.
+pythonpath = ["."]
+testpaths = ["tests"]
