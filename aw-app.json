@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "id": "ddns",
   "name": "Dynamic DNS",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Give this workspace a stable public name that follows your home internet connection. Turn it on and <slug>.workspace.ddns.tekflox.com points at your current external IP, updating on its own whenever your provider changes it \u2014 so a phone, a SIP handset or anything else outside the house can keep reaching you at one name. Off by default: nothing is published until you switch it on, and switching it off removes the name again. If your connection is behind carrier-grade NAT it tells you so instead of publishing an address that could never answer.",
   "tier": "inprocess",
   "publisher": "TekFlox",
