@@ -130,3 +130,5 @@ Standalone still talks to a real aw-backend — set `AW_BACKEND_URL`,
 agentic-workspace repo — including the rejected alternatives (running our own
 authoritative DNS server, writing into `tekflox.com`, a host-side updater,
 letting the app post its own IP) and what this makes harder later (IPv6).
+
+<!-- fleet migration batch 1: follow-up no-op to prove the review/merge loop end-to-end -->
