@@ -11,6 +11,9 @@ name: Test
 # own decision, and the fleet migration deliberately uses the simpler
 # agents-platform-runners shape (no coverage gate) for every repo in this
 # batch, deferring the coverage-gate rollout to that standard's own Phase 2.
+# The manifest schema validation step is KEPT (round 1 of this repo's own
+# review loop flagged dropping it as an unintended side effect, correctly —
+# only the coverage percentage gate was ever a deliberate call, not this).
 #
 # No `paths:` filter on `pull_request`, deliberately: the review/merge loop
 # requires this job's check to be PRESENT and passing before it will merge
@@ -50,6 +53,21 @@ jobs:
           if [ -f requirements-dev.txt ]; then
             pip install -q -r requirements-dev.txt
           fi
+
+      # tests/validate_manifest.py falls back to a sibling aw-marketplace
+      # checkout for the canonical schema when this repo has no local
+      # schemas/ copy (by design). That sibling exists in this workspace's
+      # own dev container but `actions/checkout` refuses a `path` that
+      # escapes $GITHUB_WORKSPACE, so a true sibling checkout isn't possible
+      # on a real runner — check it out into a subdirectory instead and
+      # point --schema at it explicitly, bypassing the fallback altogether.
+      - uses: actions/checkout@v7
+        with:
+          repository: tekflox/aw-marketplace
+          path: .aw-marketplace-schema
+
+      - name: Validate manifest
+        run: python3 tests/validate_manifest.py aw-app.json --schema .aw-marketplace-schema/schemas/aw-app.schema.json
 
       - name: Run test suite
         run: python3 -m pytest tests/ -q
